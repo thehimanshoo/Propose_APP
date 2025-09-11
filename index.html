@@ -1,242 +1,303 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Proposal — Ammu</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --accent:#ff3e7f;
-    --accent-2:#ffdd66;
-    --glass: rgba(0,0,0,0.28);
-  }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Himanshu's-Proposal</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --accent: #ff3e7f;
+        --accent-2: #ffdd66;
+        --glass: rgba(0, 0, 0, 0.28);
+      }
 
-  html,body{
-    height:100%;
-    width:100%;
-    margin:0;
-    font-family: "Poppins", sans-serif;
-    background:#000;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    overflow:hidden;
-  }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: #000;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        overflow: hidden;
+      }
 
-  /* background layers (two layers for crossfade) */
-  .bg-layer{
-    position:fixed;
-    inset:0;
-    background-size:cover;
-    background-position:center;
-    transform-origin:center;
-    transition:opacity .9s ease, transform .9s ease, filter .9s ease;
-    will-change:opacity,transform,filter;
-    z-index:-3;
-    filter:brightness(.6) saturate(1.05);
-  }
-  .bg-layer.hidden{ opacity:0; transform:scale(1.03); filter:brightness(.4) blur(1px); }
-  .bg-layer.visible{ opacity:1; transform:scale(1); }
+      /* background layers (two layers for crossfade) */
+      .bg-layer {
+        position: fixed;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        transform-origin: center;
+        transition: opacity 0.9s ease, transform 0.9s ease, filter 0.9s ease;
+        will-change: opacity, transform, filter;
+        z-index: -3;
+        filter: brightness(0.6) saturate(1.05);
+      }
+      .bg-layer.hidden {
+        opacity: 0;
+        transform: scale(1.03);
+        filter: brightness(0.4) blur(1px);
+      }
+      .bg-layer.visible {
+        opacity: 1;
+        transform: scale(1);
+      }
 
-  /* subtle film grain overlay */
-  .grain{
-    pointer-events:none;
-    position:fixed;
-    inset:0;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23g)' opacity='0.03' /></svg>");
-    mix-blend-mode:overlay;
-    z-index:3;
-  }
+      /* subtle film grain overlay */
+      .grain {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence baseFrequency='0.8' numOctaves='1' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23g)' opacity='0.03' /></svg>");
+        mix-blend-mode: overlay;
+        z-index: 3;
+      }
 
-  /* centered cinematic container */
-  .container{
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:min(92%,980px);
-    padding:28px;
-    box-sizing:border-box;
-    border-radius:20px;
-    backdrop-filter: blur(8px) saturate(140%);
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    box-shadow: 0 12px 40px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
-    text-align:center;
-    color:#fff;
-    z-index:10;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:180px;
-  }
+      /* centered cinematic container */
+      .container {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: min(92%, 980px);
+        padding: 28px;
+        box-sizing: border-box;
+        border-radius: 20px;
+        backdrop-filter: blur(8px) saturate(140%);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6),
+          inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        text-align: center;
+        color: #fff;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 180px;
+      }
 
-  /* big movie-like title style */
-  #text1{
-    font-family:"Great Vibes", cursive;
-    font-size: clamp(20px, 3.4vw, 30px);
-    line-height:1.5;
-    letter-spacing:0.3px;
-    text-wrap:balance;
-    -webkit-text-fill-color:transparent;
-    background: linear-gradient(90deg, var(--accent), var(--accent-2), #fff);
-    -webkit-background-clip:text;
-    color:transparent;
-    filter:drop-shadow(0 6px 18px rgba(0,0,0,0.5));
-    transition: transform .7s ease, opacity .7s ease;
-    max-height:60vh;
-    overflow:auto;
-    padding:8px 4px;
-  }
+      /* big movie-like title style */
+      #text1 {
+        font-family: "Great Vibes", cursive;
+        font-size: clamp(20px, 3.4vw, 30px);
+        line-height: 1.5;
+        letter-spacing: 0.3px;
+        text-wrap: balance;
+        -webkit-text-fill-color: transparent;
+        background: linear-gradient(
+          90deg,
+          var(--accent),
+          var(--accent-2),
+          #fff
+        );
+        -webkit-background-clip: text;
+        color: transparent;
+        filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.5));
+        transition: transform 0.7s ease, opacity 0.7s ease;
+        max-height: 60vh;
+        overflow: auto;
+        padding: 8px 4px;
+      }
 
-  /* small helper for movie-like subtitle (optional) */
-  .sub{
-    display:block;
-    font-size:12px;
-    opacity:.85;
-    margin-top:10px;
-    color:#ffd9ea;
-  }
+      /* small helper for movie-like subtitle (optional) */
+      .sub {
+        display: block;
+        font-size: 12px;
+        opacity: 0.85;
+        margin-top: 10px;
+        color: #ffd9ea;
+      }
 
-  /* floating hearts particles container */
-  .particles{ position:fixed; inset:0; pointer-events:none; z-index:5; overflow:hidden; }
+      /* floating hearts particles container */
+      .particles {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 5;
+        overflow: hidden;
+      }
 
-  .heart{
-    position:absolute;
-    width:18px;
-    height:18px;
-    transform:rotate(45deg);
-    background:linear-gradient(180deg,#ff5a9a,#ff2e6b);
-    opacity:.9;
-    filter:blur(.2px) drop-shadow(0 6px 12px rgba(255,0,120,0.12));
-    border-radius:3px;
-    will-change:transform,opacity;
-  }
-  .heart::before,.heart::after{
-    content:""; position:absolute; width:18px;height:18px; background:inherit; border-radius:50%;
-  }
-  .heart::before{ left:0; top:-9px; }
-  .heart::after{ left:-9px; top:0; }
+      .heart {
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        transform: rotate(45deg);
+        background: linear-gradient(180deg, #ff5a9a, #ff2e6b);
+        opacity: 0.9;
+        filter: blur(0.2px) drop-shadow(0 6px 12px rgba(255, 0, 120, 0.12));
+        border-radius: 3px;
+        will-change: transform, opacity;
+      }
+      .heart::before,
+      .heart::after {
+        content: "";
+        position: absolute;
+        width: 18px;
+        height: 18px;
+        background: inherit;
+        border-radius: 50%;
+      }
+      .heart::before {
+        left: 0;
+        top: -9px;
+      }
+      .heart::after {
+        left: -9px;
+        top: 0;
+      }
 
-  /* typewriter caret */
-  .caret{
-    display:inline-block;
-    width:10px;
-    height:1.1em;
-    background:linear-gradient(90deg,var(--accent),var(--accent-2));
-    margin-left:6px;
-    vertical-align:middle;
-    animation: blink 1s steps(2,start) infinite;
-    border-radius:2px;
-  }
-  @keyframes blink{ 50%{ opacity:0 } }
+      /* typewriter caret */
+      .caret {
+        display: inline-block;
+        width: 10px;
+        height: 1.1em;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        margin-left: 6px;
+        vertical-align: middle;
+        animation: blink 1s steps(2, start) infinite;
+        border-radius: 2px;
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
 
-  /* small animations when slide changes */
-  /* .container.pulse #text1{ transform:translateY(-6px) scale(1.01); }
+      /* small animations when slide changes */
+      /* .container.pulse #text1{ transform:translateY(-6px) scale(1.01); }
   .container.fade-out{ opacity:.92; transform:scale(.997); } */
 
-  /* responsive tweaks */
-  @media (max-width:600px){
-    .container{ padding:18px; border-radius:14px; min-height:160px; }
-    #text1{ font-size: clamp(16px, 5vw, 24px); }
-    .heart{ width:14px; height:14px; }
-  }
+      /* responsive tweaks */
+      @media (max-width: 600px) {
+        .container {
+          padding: 18px;
+          border-radius: 14px;
+          min-height: 160px;
+        }
+        #text1 {
+          font-size: clamp(16px, 5vw, 24px);
+        }
+        .heart {
+          width: 14px;
+          height: 14px;
+        }
+      }
 
-  /* accessible reduced motion handling */
-  @media (prefers-reduced-motion: reduce){
-    .bg-layer{ transition:none; }
-    .heart{ animation:none; }
-    .caret{ animation:none; }
-  }
-</style>
-</head>
-<body>
+      /* accessible reduced motion handling */
+      @media (prefers-reduced-motion: reduce) {
+        .bg-layer {
+          transition: none;
+        }
+        .heart {
+          animation: none;
+        }
+        .caret {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background layers for crossfade -->
+    <div id="bgA" class="bg-layer visible"></div>
+    <div id="bgB" class="bg-layer hidden"></div>
 
-<!-- Background layers for crossfade -->
-<div id="bgA" class="bg-layer visible"></div>
-<div id="bgB" class="bg-layer hidden"></div>
+    <div class="grain"></div>
 
-<div class="grain"></div>
+    <!-- floating particles -->
+    <div class="particles" id="particles"></div>
 
-<!-- floating particles -->
-<div class="particles" id="particles"></div>
+    <!-- main centered container -->
+    <div class="container" id="container">
+      <div id="text1" aria-live="polite"></div>
+    </div>
 
-<!-- main centered container -->
-<div class="container" id="container">
-  <div id="text1" aria-live="polite"></div>
-</div>
-
-<script>
-/* ---------- IMAGE SOURCE LIST ----------
+    <script>
+      /* ---------- IMAGE SOURCE LIST ----------
  Using Unsplash Source API which returns direct images for queries.
  You can add/remove keywords or replace with fixed image URLs if you prefer.
  Sources: Unsplash / Pexels (royalty-free images). See search results: Unsplash, Pexels. 
  (I used generic query-based endpoints so you always get high-res images).
  :contentReference[oaicite:1]{index=1}
 ----------------------------------------*/
-const images = [
-  "https://source.unsplash.com/1920x1080/?couple,sunset,romantic",
-  "https://source.unsplash.com/1920x1080/?romantic,bokeh,lights",
-  "https://source.unsplash.com/1920x1080/?candles,candlelight,romantic",
-  "https://source.unsplash.com/1920x1080/?red-rose,roses,romance",
-  "https://source.unsplash.com/1920x1080/?beach,couple,sunset",
-  "https://source.unsplash.com/1920x1080/?silhouette,couple,sunset"
-];
+      const images = [
+        "https://source.unsplash.com/1920x1080/?couple,sunset,romantic",
+        "https://source.unsplash.com/1920x1080/?romantic,bokeh,lights",
+        "https://source.unsplash.com/1920x1080/?candles,candlelight,romantic",
+        "https://source.unsplash.com/1920x1080/?red-rose,roses,romance",
+        "https://source.unsplash.com/1920x1080/?beach,couple,sunset",
+        "https://source.unsplash.com/1920x1080/?silhouette,couple,sunset",
+      ];
 
-/* slideshow timing */
-const intervalMs = 3000; // change background every 3 seconds
-let idx = 0;
-let front = document.getElementById('bgA');
-let back  = document.getElementById('bgB');
+      /* slideshow timing */
+      const intervalMs = 3000; // change background every 3 seconds
+      let idx = 0;
+      let front = document.getElementById("bgA");
+      let back = document.getElementById("bgB");
 
-/* preload first two images for smoothness */
-function setBackground(el, url){
-  // set via image object then apply to ensure cross-origin load before visible
-  const img = new Image();
-  img.crossOrigin = "anonymous";
-  img.onload = ()=> { el.style.backgroundImage = `url("${url}")`; };
-  img.src = url;
-}
+      /* preload first two images for smoothness */
+      function setBackground(el, url) {
+        // set via image object then apply to ensure cross-origin load before visible
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.onload = () => {
+          el.style.backgroundImage = `url("${url}")`;
+        };
+        img.src = url;
+      }
 
-/* initial backgrounds */
-setBackground(front, images[0]);
-setBackground(back, images[1]);
+      /* initial backgrounds */
+      setBackground(front, images[0]);
+      setBackground(back, images[1]);
 
-/* swap function with class toggles for crossfade */
-function swapBackground(){
-  idx = (idx + 1) % images.length;
-  // next image goes into hidden layer
-  const nextUrl = images[(idx+1) % images.length];
+      /* swap function with class toggles for crossfade */
+      function swapBackground() {
+        idx = (idx + 1) % images.length;
+        // next image goes into hidden layer
+        const nextUrl = images[(idx + 1) % images.length];
 
-  // prepare the layer that is currently hidden
-  const visible = front.classList.contains('visible') ? front : back;
-  const hidden  = visible === front ? back : front;
+        // prepare the layer that is currently hidden
+        const visible = front.classList.contains("visible") ? front : back;
+        const hidden = visible === front ? back : front;
 
-  // put next image on hidden and then fade it in
-  setBackground(hidden, images[idx]);
-  hidden.classList.remove('hidden'); hidden.classList.add('visible');
-  visible.classList.remove('visible'); visible.classList.add('hidden');
+        // put next image on hidden and then fade it in
+        setBackground(hidden, images[idx]);
+        hidden.classList.remove("hidden");
+        hidden.classList.add("visible");
+        visible.classList.remove("visible");
+        visible.classList.add("hidden");
 
-  // subtle container pulse when bg changes
-  const container = document.getElementById('container');
-  container.classList.add('pulse');
-  container.classList.add('fade-out');
-  setTimeout(()=> container.classList.remove('pulse','fade-out'), 900);
+        // subtle container pulse when bg changes
+        const container = document.getElementById("container");
+        container.classList.add("pulse");
+        container.classList.add("fade-out");
+        setTimeout(() => container.classList.remove("pulse", "fade-out"), 900);
 
-  // preload following image
-  setBackground(visible, nextUrl);
-}
+        // preload following image
+        setBackground(visible, nextUrl);
+      }
 
-/* start the loop */
-let slideTimer = setInterval(swapBackground, intervalMs);
+      /* start the loop */
+      let slideTimer = setInterval(swapBackground, intervalMs);
 
-/* ---------- TYPEWRITER + text mapping ----------
+      /* ---------- TYPEWRITER + text mapping ----------
  Your natural Indian-English text (already prepared). We use your markers:
  - '<' => line break
  - '>' => clear screen
  - '|' => special pause / climax
  We will run the typewriter once. On each background change text will get a gentle glow/pulse only.
 --------------------------------------------*/
-const rawText = `Hi Ammu.....!  <<  
+      const rawText = `Hi Love.....!  <<  
 I don’t know how to start this, but today I just want to say something straight from my heart. <<<  
 So please read this carefully, because every line is for you only...! 
 
@@ -250,7 +311,7 @@ Why do your thoughts keep running in my head all the time? <<
 Why does my heart always search for you, even in small things? <<  
 Maybe this is what people call love...! <<    
 
-> Anjana, you don’t even know <  
+> My Love, you don’t even know <  
 How much happiness your smile gives me. << 
 Even your small talks feel so sweet and precious to me. <<  
 You have become that person in my life whom I never want to lose...! <<    
@@ -278,88 +339,102 @@ My dream, my strength, my peace, my everything...! <<
 I am asking you from my heart... <<  
 Will you be mine, not just for today, not just for tomorrow, but for always...? ❤️`;
 
-/* typewriter implementation */
-const out = document.getElementById('text1');
-let pos = 0;
-let defaultSpeed = 120; // character delay (ms) — slow but natural
-function typeStep(){
-  if(pos >= rawText.length) {
-    // show caret for finish
-    if (!document.querySelector('.caret')) {
-      const c = document.createElement('span');
-      c.className = 'caret';
-      out.appendChild(c);
-    }
-    return;
-  }
+      /* typewriter implementation */
+      const out = document.getElementById("text1");
+      let pos = 0;
+      let defaultSpeed = 120; // character delay (ms) — slow but natural
+      function typeStep() {
+        if (pos >= rawText.length) {
+          // show caret for finish
+          if (!document.querySelector(".caret")) {
+            const c = document.createElement("span");
+            c.className = "caret";
+            out.appendChild(c);
+          }
+          return;
+        }
 
-  const ch = rawText.charAt(pos);
-  let delay = defaultSpeed;
+        const ch = rawText.charAt(pos);
+        let delay = defaultSpeed;
 
-  if(ch === '<'){
-    out.innerHTML += "<br/>";
-    delay = 400;
-  } else if(ch === '>'){
-    out.innerHTML = "";
-    delay = 600;
-  } else if(ch === '|'){
-    // add a small flourish at climax
-    out.innerHTML += " ❤️ ";
-    delay = 900;
-  } else {
-    out.innerHTML += ch;
-  }
+        if (ch === "<") {
+          out.innerHTML += "<br/>";
+          delay = 400;
+        } else if (ch === ">") {
+          out.innerHTML = "";
+          delay = 600;
+        } else if (ch === "|") {
+          // add a small flourish at climax
+          out.innerHTML += " ❤️ ";
+          delay = 900;
+        } else {
+          out.innerHTML += ch;
+        }
 
-  pos++;
-  // scroll container to keep text centered on small screens if overflow
-  out.parentElement.scrollTop = out.scrollHeight;
+        pos++;
+        // scroll container to keep text centered on small screens if overflow
+        out.parentElement.scrollTop = out.scrollHeight;
 
-  setTimeout(typeStep, delay);
-}
+        setTimeout(typeStep, delay);
+      }
 
-/* start typing after first bg loaded */
-window.addEventListener('load', ()=> {
-  // small delay to let background load visually
-  setTimeout(()=>{ typeStep(); }, 700);
-});
+      /* start typing after first bg loaded */
+      window.addEventListener("load", () => {
+        // small delay to let background load visually
+        setTimeout(() => {
+          typeStep();
+        }, 700);
+      });
 
-/* ---------- PARTICLES (hearts) ----------
+      /* ---------- PARTICLES (hearts) ----------
  create floating hearts with random positions/animations
 -------------------------------------------*/
-const p = document.getElementById('particles');
-function spawnHeart(){
-  const h = document.createElement('div');
-  h.className = 'heart';
-  const size = Math.random() * 18 + 10;
-  h.style.width = `${size}px`; h.style.height = `${size}px`;
-  h.style.left = `${Math.random() * 100}%`;
-  h.style.bottom = `-8%`;
-  h.style.opacity = (Math.random() * .6) + .4;
-  p.appendChild(h);
+      const p = document.getElementById("particles");
+      function spawnHeart() {
+        const h = document.createElement("div");
+        h.className = "heart";
+        const size = Math.random() * 18 + 10;
+        h.style.width = `${size}px`;
+        h.style.height = `${size}px`;
+        h.style.left = `${Math.random() * 100}%`;
+        h.style.bottom = `-8%`;
+        h.style.opacity = Math.random() * 0.6 + 0.4;
+        p.appendChild(h);
 
-  const duration = 6000 + Math.random()*8000;
-  h.animate([
-    { transform: `translateY(0) rotate(45deg) scale(.6)`, opacity: h.style.opacity },
-    { transform: `translateY(-120vh) rotate(${30 + Math.random()*60}deg) scale(1.2)`, opacity: 0 }
-  ], {
-    duration,
-    easing:'linear'
-  });
+        const duration = 6000 + Math.random() * 8000;
+        h.animate(
+          [
+            {
+              transform: `translateY(0) rotate(45deg) scale(.6)`,
+              opacity: h.style.opacity,
+            },
+            {
+              transform: `translateY(-120vh) rotate(${
+                30 + Math.random() * 60
+              }deg) scale(1.2)`,
+              opacity: 0,
+            },
+          ],
+          {
+            duration,
+            easing: "linear",
+          }
+        );
 
-  setTimeout(()=> h.remove(), duration+100);
-}
+        setTimeout(() => h.remove(), duration + 100);
+      }
 
-/* spawn hearts periodically, but fewer on small devices */
-let spawnInterval = window.innerWidth < 600 ? 900 : 520;
-setInterval(spawnHeart, spawnInterval);
+      /* spawn hearts periodically, but fewer on small devices */
+      let spawnInterval = window.innerWidth < 600 ? 900 : 520;
+      setInterval(spawnHeart, spawnInterval);
 
-/* optional: pause slideshow when user taps (mobile) to let them read */
-let paused = false;
-document.getElementById('container').addEventListener('click', ()=>{
-  paused = !paused;
-  if(paused) clearInterval(slideTimer);
-  else slideTimer = setInterval(swapBackground, intervalMs);
-});
-</script>
-</body>
+      /* optional: pause slideshow when user taps (mobile) to let them read */
+      let paused = false;
+      document.getElementById("container").addEventListener("click", () => {
+        paused = !paused;
+        if (paused) clearInterval(slideTimer);
+        else slideTimer = setInterval(swapBackground, intervalMs);
+      });
+    </script>
+  </body>
 </html>
